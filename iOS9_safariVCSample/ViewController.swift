@@ -1,0 +1,43 @@
+//
+//  ViewController.swift
+//  iOS9_safariVCSample
+//
+//  Created by Kentaro Matsumae on 2015/06/18.
+//  Copyright © 2015年 Kentaro Matsumae. All rights reserved.
+//
+
+import UIKit
+import SafariServices
+
+let kSafariViewControllerCloseNotificationName = "safariViewControllerCloseNotificationName"
+
+class ViewController: UIViewController {
+    
+    lazy var safariVC:SFSafariViewController! = {
+        let url = NSURL(string: "http://kenmaz.net/tmp/ios9_sample.html")!
+        let vc = SFSafariViewController(URL:url)
+        vc.delegate = self
+        return vc
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(kSafariViewControllerCloseNotificationName, object: nil, queue: NSOperationQueue.mainQueue()) { [unowned self] (notification) -> Void in
+            self.safariVC.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    @IBAction func touchButton(sender: AnyObject) {
+        presentViewController(safariVC, animated: true, completion: nil)
+    }
+}
+
+extension ViewController: SFSafariViewControllerDelegate {
+
+    func safariViewControllerDidFinish(controller: SFSafariViewController) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+
