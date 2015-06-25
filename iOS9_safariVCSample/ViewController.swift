@@ -25,10 +25,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserverForName(kSafariViewControllerCloseNotificationName, object: nil, queue: NSOperationQueue.mainQueue()) { [unowned self] (notification) -> Void in
-            
-            self.tracked = true
-            self.safariVC.dismissViewControllerAnimated(true, completion: nil)
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            kSafariViewControllerCloseNotificationName,
+            object: nil,
+            queue: NSOperationQueue.mainQueue()) { [unowned self] (notification) -> Void in
+                
+                self.tracked = true
+                self.safariVC.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
