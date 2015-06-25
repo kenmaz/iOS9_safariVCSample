@@ -20,16 +20,24 @@ class ViewController: UIViewController {
         return vc
     }()
     
+    var tracked = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NSNotificationCenter.defaultCenter().addObserverForName(kSafariViewControllerCloseNotificationName, object: nil, queue: NSOperationQueue.mainQueue()) { [unowned self] (notification) -> Void in
+            
+            self.tracked = true
             self.safariVC.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
-    @IBAction func touchButton(sender: AnyObject) {
-        presentViewController(safariVC, animated: true, completion: nil)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if !tracked {
+            presentViewController(safariVC, animated: true, completion: nil)
+        }
     }
 }
 
